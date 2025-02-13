@@ -106,7 +106,8 @@
             container.innerHTML = 'Loading...';
 
             try {
-                const response = await fetch(`https://serpapi.com/search.json?engine=youtube_video&api_key=${API_KEY}&v=${videoId}`);
+                // Update this URL to match your server's domain
+                const response = await fetch(`https://eldritch.gleeze.com:3000/api/related-videos?v=${videoId}`);
                 const data = await response.json();
                 
                 if (data.related_videos) {
