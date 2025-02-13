@@ -86,6 +86,12 @@
             border-radius: 50%;
             margin-right: 8px;
         }
+
+        .initial-message {
+            text-align: center;
+            color: #666;
+            margin-top: 40px;
+        }
     </style>
 </head>
 <body>
@@ -93,20 +99,27 @@
         <input type="text" id="videoId" placeholder="Enter YouTube Video ID">
         <button id="searchBtn">Search Related Videos</button>
     </div>
-    <div class="videos-grid" id="videosContainer"></div>
+    <div class="videos-grid" id="videosContainer">
+        <div class="initial-message">
+            Enter a YouTube video ID and click "Search Related Videos" to see related content
+        </div>
+    </div>
 
     <script>
-        const API_KEY = '51c385ea5151ec9fef2d5a287ba2a4db6c79dbc4bc2cf65fbc9db6ac737a9e20';
-
         document.getElementById('searchBtn').addEventListener('click', fetchRelatedVideos);
 
         async function fetchRelatedVideos() {
-            const videoId = document.getElementById('videoId').value;
+            const videoId = document.getElementById('videoId').value.trim();
+            
+            if (!videoId) {
+                alert('Please enter a video ID');
+                return;
+            }
+
             const container = document.getElementById('videosContainer');
             container.innerHTML = 'Loading...';
 
             try {
-                // Update this URL to match your server's domain
                 const response = await fetch(`https://eldritch.gleeze.com:3000/api/related-videos?v=${videoId}`);
                 const data = await response.json();
                 
@@ -146,10 +159,6 @@
                 container.innerHTML += videoCard;
             });
         }
-
-        // Load initial results with the example video ID
-        document.getElementById('videoId').value = 'kWgMpKiHl9o';
-        fetchRelatedVideos();
     </script>
 </body>
 </html>
